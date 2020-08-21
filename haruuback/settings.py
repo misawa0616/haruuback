@@ -14,7 +14,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 USE_TZ = True
 USE_I18N = True
 USE_L10N = True
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 INSTALLED_APPS = [
     # Local apps
     'api',
@@ -107,4 +107,6 @@ REST_AUTH_SERIALIZERS = {
 }
 CORS_ORIGIN_WHITELIST = (
     'http://localhost:3000',
+    'http://192.168.0.4:3000',
+    'http://192.168.0.7:3000',
 )

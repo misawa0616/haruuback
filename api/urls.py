@@ -1,4 +1,4 @@
-from .views import ConfirmEmailAPIView, ChangeEmailAPIView, TestAPIView
+from .views import ConfirmEmailAPIView, ChangeEmailAPIView, TestAPIView, FavoriteRegisterAPIView, FavoriteEditorAPIView
 
 from django.conf.urls import url, include
 
@@ -12,5 +12,11 @@ urlpatterns = [
     url('test/',
         TestAPIView.as_view(),
         name='test'),
+    url('favorite_register/',
+        FavoriteRegisterAPIView.as_view(),
+        name='favorite_register'),
+    url('favorite_editor/',
+        FavoriteEditorAPIView.as_view(),
+        name='favorite_editor'),
     url('rest_auth/', include('rest_auth.urls')),
 ]

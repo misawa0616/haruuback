@@ -21,9 +21,8 @@ class FavoriteTag(models.Model):
     id = models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')
     haruu_user = models.ForeignKey(HaruuUser, blank=True, null=True, on_delete=models.CASCADE)
     updated_at = models.DateTimeField(auto_now_add=True)
-    url = models.CharField(max_length=254)
-    title = models.CharField(max_length=254)
-    class_id = models.CharField(max_length=254)
+    favorite_url = models.CharField(max_length=254)
+    favorite_title = models.CharField(max_length=254)
 
     class Meta:
         verbose_name_plural = 't4_favorite_tag'
