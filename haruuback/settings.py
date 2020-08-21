@@ -60,15 +60,12 @@ TEMPLATES = [
 ]
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'haruuback',
-        'USER': 'root',
-        'PASSWORD': 'mysql',
+        'USER': 'postgres',
+        'PASSWORD': 'postgres',
         'HOST': 'localhost',
-        'PORT': '3306',
-        'OPTIONS': {
-            'charset': 'cp932',
-        }
+        'PORT': '5432',
     }
 }
 AUTH_PASSWORD_VALIDATORS = [
@@ -106,7 +103,5 @@ REST_AUTH_SERIALIZERS = {
     'LOGIN_SERIALIZER': 'accounts.serializers.CustomLoginSerializer',
 }
 CORS_ORIGIN_WHITELIST = (
-    'http://localhost:3000',
-    'http://192.168.0.4:3000',
-    'http://192.168.0.7:3000',
+    'http://192.168.0.7',
 )
