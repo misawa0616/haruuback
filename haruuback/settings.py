@@ -10,10 +10,12 @@ LANGUAGE_CODE = 'ja'
 STATIC_URL = '/static/'
 AUTH_USER_MODEL = 'accounts.HaruuUser'
 TIME_ZONE = 'Asia/Tokyo'
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-EMAIL_BACKEND = 'django_ses.SESBackend'
-AWS_ACCESS_KEY_ID = 'MY-ACCESS-KEY-ID'
-AWS_SECRET_ACCESS_KEY = 'MY-SECRET-ACCESS-KEY'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_USE_TLS = True
+EMAIL_HOST = 'smtp.office365.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'takumajane1@outlook.jp'
+EMAIL_HOST_PASSWORD = ''
 DEFAULT_FROM_EMAIL = SERVER_EMAIL = 'takumajane1@outlook.jp'
 USE_TZ = True
 USE_I18N = True
@@ -109,4 +111,5 @@ REST_AUTH_SERIALIZERS = {
 CORS_ORIGIN_WHITELIST = (
     'http://192.168.0.7',
     'http://54.226.195.187',
+    'http://favoritetag.xyz',
 )
