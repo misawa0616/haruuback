@@ -63,7 +63,7 @@ class ChangeEmailAPIView(APIView):
             'http://127.0.0.1:8000/api/v1/'
             'confirm_change_email/{}'.format(serializer.data.get('token')),
             'takumajane1@outlook.jp',
-            [serializer.data.get('token')],
+            [serializer.data.get('after_change_email')],
             fail_silently=False,
         )
         return Response({'detail': 'Send mail'}, status.HTTP_201_CREATED)
