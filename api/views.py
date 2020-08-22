@@ -74,9 +74,8 @@ class TestAPIView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request, *args, **kwargs):
-        favorite_tag = FavoriteTag.objects.filter(haruu_user=request.user.id).values('id',
-                                                                                     'favorite_url',
-                                                                                     'favorite_title')
+        favorite_tag = FavoriteTag.objects.filter(haruu_user=request.user.id).order_by('id')\
+            .values('id', 'favorite_url', 'favorite_title')
         favorite_tag_list_serializer = FavoriteTagListSerializer(data=favorite_tag)
         favorite_tag_list_serializer.is_valid()
         return Response({"email": request.user.email,
