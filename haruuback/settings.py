@@ -12,11 +12,11 @@ AUTH_USER_MODEL = 'accounts.HaruuUser'
 TIME_ZONE = 'Asia/Tokyo'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
-EMAIL_HOST = 'smtp.office365.com'
+EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'takumajane1@outlook.jp'
+EMAIL_HOST_USER = 'favoritetagpro@gmail.com'
 EMAIL_HOST_PASSWORD = ''
-DEFAULT_FROM_EMAIL = SERVER_EMAIL = 'takumajane1@outlook.jp'
+DEFAULT_FROM_EMAIL = SERVER_EMAIL = 'favoritetagpro@gmail.com'
 USE_TZ = True
 USE_I18N = True
 USE_L10N = True
