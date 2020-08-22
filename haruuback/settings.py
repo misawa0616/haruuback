@@ -10,7 +10,11 @@ LANGUAGE_CODE = 'ja'
 STATIC_URL = '/static/'
 AUTH_USER_MODEL = 'accounts.HaruuUser'
 TIME_ZONE = 'Asia/Tokyo'
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django_ses.SESBackend'
+AWS_ACCESS_KEY_ID = 'MY-ACCESS-KEY-ID'
+AWS_SECRET_ACCESS_KEY = 'MY-SECRET-ACCESS-KEY'
+DEFAULT_FROM_EMAIL = SERVER_EMAIL = 'takumajane1@outlook.jp'
 USE_TZ = True
 USE_I18N = True
 USE_L10N = True
