@@ -112,4 +112,6 @@ CORS_ORIGIN_WHITELIST = (
     'http://192.168.0.7',
     'http://54.226.195.187',
     'http://favoritetag.xyz',
+    'https://54.226.195.187',
+    'https://favoritetag.xyz',
 )
