@@ -2,10 +2,21 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from rest_framework.authtoken.models import Token
 from common.utils import uuid_create
+from django.utils.translation import gettext_lazy as _
 
 
 class HaruuUser(AbstractUser):
-    email = models.EmailField(blank=True)
+    username = models.CharField(
+        _('username'),
+        default=uuid_create,
+        max_length=150,
+        unique=True,
+        help_text=_('Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.'),
+        error_messages={
+            'unique': _("A user with that username already exists."),
+        },
+    )
+    email = models.EmailField(blank=True, unique=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta(AbstractUser.Meta):

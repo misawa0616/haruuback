@@ -28,3 +28,15 @@ class FavoriteTag(models.Model):
         verbose_name_plural = 't4_favorite_tag'
         db_table = 't4_favorite_tag'
         verbose_name = 'id'
+
+
+class UserRegisterToken(models.Model):
+    id = models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')
+    haruu_user = models.ForeignKey(HaruuUser, blank=True, null=True, on_delete=models.CASCADE)
+    token = models.CharField(default=uuid_create, max_length=32)
+    updated_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        verbose_name_plural = 't5_register_token'
+        db_table = 't5_register_token'
+        verbose_name = 'id'

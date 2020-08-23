@@ -8,9 +8,61 @@ from django.utils import timezone
 import datetime
 from django.core.mail import send_mail
 
-from .models import EmailConfirm, HaruuUser, FavoriteTag
+from .models import EmailConfirm, HaruuUser, FavoriteTag, UserRegisterToken
+from .serializers import ChangeEmailSerializer, FavoriteTagSerializer, FavoriteTagListSerializer, UserRegisterSerializer
+from common.utils import custom_update_create_user_register_token
 
-from .serializers import ChangeEmailSerializer, FavoriteTagSerializer, FavoriteTagListSerializer
+
+class UserRegisterAPIView(APIView):
+
+    permission_classes = (AllowAny,)
+    allowed_methods = ('POST', 'HEAD')
+
+    def post(self, request, *args, **kwargs):
+        request_data = request.data
+        request_data['is_active'] = False
+        serializer = UserRegisterSerializer(data=request_data)
+        if serializer.is_valid() is False:
+            return Response(serializer.errors, status.HTTP_400_BAD_REQUEST)
+        serializer.save()
+        user_register_token = custom_update_create_user_register_token(UserRegisterToken, serializer.data)
+        send_mail(
+            'user register url',
+            'https://favoritetag.xyz/api/v1/'
+            'confirm_user/{}'.format(user_register_token.token),
+            'favoritetagpro@gmail.com',
+            [serializer.data.get('email')],
+            fail_silently=False,
+        )
+        return Response({'detail': 'Send mail'}, status.HTTP_201_CREATED)
+
+
+class ConfirmUserAPIView(APIView):
+
+    permission_classes = (AllowAny,)
+    allowed_methods = ('GET', 'HEAD')
+
+    def get(self, request, *args, **kwargs):
+        try:
+            user_confirmation = get_object_or_404(
+                UserRegisterToken, token=kwargs['key'])
+        except Http404:
+            return Response({'detail': '不当なURLです。'},
+                            status=status.HTTP_404_NOT_FOUND)
+
+        if user_confirmation.haruu_user.is_active:
+            return Response({'detail': 'メールアドレスの変更は既に完了しています。'},
+                            status=status.HTTP_400_BAD_REQUEST)
+
+        if (timezone.now() - user_confirmation.updated_at) \
+                > datetime.timedelta(days=1):
+            return Response({'detail': 'URLの有効期限がきれています。'},
+                            status=status.HTTP_400_BAD_REQUEST)
+
+        user_confirmation.haruu_user.is_active = True
+        user_confirmation.haruu_user.save()
+        return Response({'detail': 'ユーザ登録が完了しました。'},
+                        status=status.HTTP_201_CREATED)
 
 
 class ConfirmEmailAPIView(APIView):

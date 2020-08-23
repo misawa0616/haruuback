@@ -1,6 +1,6 @@
-from .models import EmailConfirm, HaruuUser, FavoriteTag
+from .models import EmailConfirm, HaruuUser, FavoriteTag, UserRegisterToken
 from rest_framework import serializers
-from common.utils import custom_update_create_email_confirm
+from common.utils import custom_update_create_email_confirm, custom_update_create_user_register
 
 
 class ChangeEmailSerializer(serializers.ModelSerializer):
@@ -43,3 +43,19 @@ class FavoriteTagListSerializer(serializers.ListSerializer):
                     continue
         ret.append(self.child.Meta.model.objects.bulk_update(instance, fields=['favorite_url', 'favorite_title']))
         return ret
+
+
+class UserRegisterSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField(required=True, allow_blank=False)
+
+    class Meta:
+        model = HaruuUser
+        exclude = ()
+
+    def validate_email(self, attrs):
+        if HaruuUser.objects.filter(email=attrs, is_active=True).exists():
+            raise serializers.ValidationError("このメールアドレスは既に登録されています。")
+        return attrs
+
+    def create(self, validated_data):
+        return custom_update_create_user_register(HaruuUser, validated_data)

@@ -1,5 +1,7 @@
 import uuid
 from django.utils import timezone
+from django.contrib.auth.models import AnonymousUser
+from django.contrib.auth.hashers import make_password
 
 
 def uuid_create():
@@ -23,3 +25,18 @@ def custom_update_create_email_confirm(email_confirm_model, validate_data):
     email_confirm, _ = email_confirm_model.objects.update_or_create(
         haruu_user=validate_data.get('haruu_user'), defaults=defaults)
     return email_confirm
+
+
+def custom_update_create_user_register(user_register_model, validate_data):
+    validate_data['password'] = make_password(validate_data.get('password'))
+    user_register, _ = user_register_model.objects.update_or_create(email=validate_data.get('email'),
+                                                                    defaults=validate_data)
+    return user_register
+
+
+def custom_update_create_user_register_token(user_register_token_model, validate_data):
+    defaults = {'token': uuid.uuid4().hex,
+                'updated_at': timezone.now()}
+    user_register_token, _ = user_register_token_model.objects.update_or_create(haruu_user_id=validate_data.get('id'),
+                                                                                defaults=defaults)
+    return user_register_token
