@@ -2,6 +2,7 @@ import uuid
 from django.utils import timezone
 from django.contrib.auth.models import AnonymousUser
 from django.contrib.auth.hashers import make_password
+import datetime
 
 
 def uuid_create():
@@ -9,11 +10,16 @@ def uuid_create():
 
 
 def custom_update_create_auth_token(token_model, user, serializer):
-    defaults = {'key': uuid.uuid4().hex,
-                'updated_at': timezone.now()}
+    if token_model.objects.filter(
+            user=user, updated_at__gte=timezone.now() - datetime.timedelta(minutes=30)).exists():
+        defaults = {'updated_at': timezone.now()}
+    else:
+        defaults = {'key': uuid.uuid4().hex,
+                    'updated_at': timezone.now()}
     token, _ = token_model.objects.update_or_create(
         user=user, defaults=defaults)
     return token
+
 
 
 def custom_update_create_email_confirm(email_confirm_model, validate_data):

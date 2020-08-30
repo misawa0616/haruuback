@@ -18,7 +18,7 @@ class CustomTokenAuthentication(TokenAuthentication):
             token = model.objects.select_related('user').get(key=key)
         except model.DoesNotExist:
             raise exceptions.AuthenticationFailed('Invalid token.')
-        if (timezone.now() - token.updated_at) > datetime.timedelta(minutes=30):
+        if (timezone.now() - token.updated_at) >= datetime.timedelta(minutes=30):
             raise exceptions.AuthenticationFailed('Expired token.')
 
         if not token.user.is_active:
