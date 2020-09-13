@@ -28,7 +28,7 @@ class UserRegisterAPIView(APIView):
         user_register_token = custom_update_create_user_register_token(UserRegisterToken, serializer.data)
         send_mail(
             'user register url',
-            'https://favoritetag.xyz/g9_user_register_complete'
+            'https://favoritetag.xyz/g33_user_register_complete'
             '?token={}/'.format(user_register_token.token),
             'favoritetagpro@gmail.com',
             [serializer.data.get('email')],
@@ -112,8 +112,8 @@ class ChangeEmailAPIView(APIView):
         serializer.save()
         send_mail(
             'mail address confirm',
-            'https://favoritetag.xyz/api/v1/'
-            'confirm_change_email/{}'.format(serializer.data.get('token')),
+            'https://favoritetag.xyz/g13_email_change_complete'
+            '?token={}/'.format(serializer.data.get('token')),
             'favoritetagpro@gmail.com',
             [serializer.data.get('after_change_email')],
             fail_silently=False,
