@@ -112,8 +112,8 @@ class ChangeEmailAPIView(APIView):
         serializer.save()
         send_mail(
             'mail address confirm',
-            'https://favoritetag.xyz/api/v1/'
-            'confirm_change_email/{}'.format(serializer.data.get('token')),
+            'https://favoritetag.xyz/g9_user_register_complete'
+            '?token={}/'.format(serializer.data.get('token')),
             'favoritetagpro@gmail.com',
             [serializer.data.get('after_change_email')],
             fail_silently=False,
